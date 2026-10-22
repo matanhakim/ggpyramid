@@ -16,39 +16,20 @@ knitr::opts_chunk$set(
 # ggpyramid
 
 <!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![R-CMD-check](https://github.com/matanhakim/ggpyramid/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/matanhakim/ggpyramid/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
-The goal of ggpyramid is to ...
+ggpyramid is a [ggplot2](https://ggplot2.tidyverse.org) extension for building
+population pyramids: back-to-back bar charts of a population by age group and
+sex. The package is in early development.
 
 ## Installation
 
-You can install the development version of ggpyramid like so:
+You can install the development version of ggpyramid from
+[GitHub](https://github.com/matanhakim/ggpyramid) with:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+# install.packages("pak")
+pak::pak("matanhakim/ggpyramid")
 ```
-
-## Example
-
-This is a basic example which shows you how to solve a common problem:
-
-```{r example}
-library(ggpyramid)
-## basic example code
-```
-
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
-```{r cars}
-summary(cars)
-```
-
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
