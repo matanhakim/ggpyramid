@@ -13,10 +13,11 @@ It is Matan Hakim’s personal open-source package, public on GitHub at
 author live next to it (`../il.cbs.muni`, `../rtlr`) and set the house
 conventions for DESCRIPTION, pkgdown and CI; match them.
 
-Status: skeleton only (Oct 2026). No exported functions yet and no API
-design has been agreed. Wait for Matan’s instructions before designing
-the interface (geom/stat ggproto objects vs. a wrapper function, input
-data shape, scales).
+Status: skeleton only (Oct 2026). Design research, the six architecture
+alternatives and the recommended API live in `dev/design-research.md`
+(Hebrew); throwaway feasibility prototypes in `dev/spikes/`. Section 8
+there records the decisions once Matan makes them; do not implement
+ahead of it. `dev/` is build-ignored.
 
 ## Commands
 
