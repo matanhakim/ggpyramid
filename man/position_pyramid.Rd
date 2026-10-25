@@ -42,8 +42,8 @@ The data you supply stays positive. Inside the plot, values on the left side
 are negative, so a manual reference line or limit on that side carries a
 minus sign: \code{geom_vline(xintercept = -100)} or
 \code{scale_x_continuous(limits = c(-500, 500))}. \code{\link[=coord_pyramid]{coord_pyramid()}} shows the
-axis labels without the sign; with another coordinate system, use
-\code{scale_x_continuous(labels = abs)}.
+axis labels without the sign; with another coordinate system or in a
+vertical pyramid, use \code{\link[=scale_x_pyramid]{scale_x_pyramid()}} or \code{\link[=scale_y_pyramid]{scale_y_pyramid()}}.
 }
 
 \section{Orientation}{

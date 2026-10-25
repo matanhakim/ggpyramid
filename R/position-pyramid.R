@@ -26,8 +26,8 @@
 #' are negative, so a manual reference line or limit on that side carries a
 #' minus sign: `geom_vline(xintercept = -100)` or
 #' `scale_x_continuous(limits = c(-500, 500))`. [coord_pyramid()] shows the
-#' axis labels without the sign; with another coordinate system, use
-#' `scale_x_continuous(labels = abs)`.
+#' axis labels without the sign; with another coordinate system or in a
+#' vertical pyramid, use [scale_x_pyramid()] or [scale_y_pyramid()].
 #'
 #' @section Orientation:
 #' The axis that does not hold age is the one that gets mirrored. Age is the
