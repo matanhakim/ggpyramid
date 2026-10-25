@@ -41,8 +41,9 @@ missing side are drawn on the right.
 The data you supply stays positive. Inside the plot, values on the left side
 are negative, so a manual reference line or limit on that side carries a
 minus sign: \code{geom_vline(xintercept = -100)} or
-\code{scale_x_continuous(limits = c(-500, 500))}. To show the left side's axis
-labels without the sign, use \code{scale_x_continuous(labels = abs)}.
+\code{scale_x_continuous(limits = c(-500, 500))}. \code{\link[=coord_pyramid]{coord_pyramid()}} shows the
+axis labels without the sign; with another coordinate system, use
+\code{scale_x_continuous(labels = abs)}.
 }
 
 \section{Orientation}{
@@ -68,7 +69,8 @@ pop <- data.frame(
 ggplot(pop, aes(x = n, y = age, fill = sex)) +
   geom_col(position = position_pyramid()) +
   geom_text(aes(label = n, hjust = -0.2), position = "pyramid") +
-  scale_x_continuous(labels = abs, expand = expansion(mult = 0.15))
+  scale_x_continuous(expand = expansion(mult = 0.15)) +
+  coord_pyramid()
 
 # Subgroups stack within each side
 pop2 <- rbind(transform(pop, group = "A"), transform(pop, group = "B"))
@@ -76,5 +78,6 @@ ggplot(pop2, aes(x = n, y = age, fill = group, side = sex)) +
   geom_col(position = position_pyramid(left = "Female"))
 }
 \seealso{
-\code{\link[=geom_pyramid]{geom_pyramid()}} for the bars of a pyramid.
+\code{\link[=geom_pyramid]{geom_pyramid()}} for the bars of a pyramid, and \code{\link[=coord_pyramid]{coord_pyramid()}}
+for its axes.
 }

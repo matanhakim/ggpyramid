@@ -34,7 +34,8 @@
 #'   `denominator` is set.
 #'
 #' @returns A ggplot2 layer.
-#' @seealso [position_pyramid()] to mirror other layers.
+#' @seealso [position_pyramid()] to mirror other layers, and [coord_pyramid()]
+#'   for the axes of a pyramid.
 #' @export
 #' @examples
 #' library(ggplot2)
@@ -48,7 +49,7 @@
 #' # Aggregated data: the value is summed
 #' ggplot(pop, aes(x = n, y = age, fill = sex)) +
 #'   geom_pyramid() +
-#'   scale_x_continuous(labels = abs)
+#'   coord_pyramid()
 #'
 #' # Individual records: rows are counted
 #' people <- pop[rep(seq_len(nrow(pop)), pop$n), c("age", "sex")]
@@ -58,7 +59,8 @@
 #' # Percentages of each side
 #' ggplot(pop, aes(x = n, y = age, fill = sex)) +
 #'   geom_pyramid(denominator = "side") +
-#'   scale_x_continuous(labels = \(x) scales::percent(abs(x))) +
+#'   scale_x_continuous(labels = scales::label_percent()) +
+#'   coord_pyramid() +
 #'   labs(x = "Share of each sex")
 geom_pyramid <- function(
   mapping = NULL,

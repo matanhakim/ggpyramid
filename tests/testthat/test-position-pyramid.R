@@ -176,3 +176,14 @@ test_that("arguments are checked", {
   expect_snapshot(position_pyramid(left = c("Male", "Female")), error = TRUE)
   expect_snapshot(position_pyramid(stack = "yes"), error = TRUE)
 })
+
+test_that("a zero on the left side stays on the left side", {
+  df <- pyramid_data()
+  df$n[4] <- 0
+  p <- ggplot2::ggplot(df, ggplot2::aes(n, age, fill = sex)) +
+    ggplot2::geom_col(position = "pyramid", width = 1)
+  d <- layer_rows(p)
+
+  expect_equal(1 / c(d$xmin[4], d$xmax[4]), c(-Inf, -Inf))
+  expect_equal(d$xmin[8], 0)
+})

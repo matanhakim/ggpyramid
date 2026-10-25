@@ -7,6 +7,9 @@ reference:
   contents:
   - geom_pyramid
   - position_pyramid
+- title: Coordinates
+  contents:
+  - coord_pyramid
 - title: Extending ggpyramid
   contents:
   - ggpyramid-ggproto

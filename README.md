@@ -47,12 +47,27 @@ pop$n <- round(1000 * exp(-as.integer(pop$age) / 9) * runif(nrow(pop), 0.9, 1.1)
 
 ggplot(subset(pop, region == "North"), aes(x = n, y = age, fill = sex)) +
   geom_pyramid(width = 1, colour = "white") +
-  scale_x_continuous(labels = abs) +
+  coord_pyramid() +
   labs(x = "Population", y = NULL, fill = NULL) +
   theme_minimal()
 ```
 
 <img src="man/figures/README-pyramid-1.png" alt="" width="100%" />
+
+`coord_pyramid()` takes care of the axes. It labels both sides without a
+minus sign and gives them the same range, and it can move the age axis
+to the right, to both sides, or into a gap in the centre of the pyramid:
+
+``` r
+ggplot(subset(pop, region == "North"), aes(x = n, y = age, fill = sex)) +
+  geom_pyramid(width = 1, colour = "white") +
+  coord_pyramid(age_axis = "centre") +
+  labs(x = "Population", y = NULL, fill = NULL) +
+  theme_minimal() +
+  theme(panel.grid.major.y = element_blank())
+```
+
+<img src="man/figures/README-centre-1.png" alt="" width="100%" />
 
 `denominator` turns the bars into proportions, of the whole panel or of
 each side, and each facet gets its own denominator.
@@ -60,7 +75,8 @@ each side, and each facet gets its own denominator.
 ``` r
 ggplot(pop, aes(x = n, y = age, fill = sex)) +
   geom_pyramid(denominator = "side", width = 1) +
-  scale_x_continuous(labels = \(x) scales::percent(abs(x))) +
+  scale_x_continuous(labels = scales::label_percent()) +
+  coord_pyramid() +
   facet_wrap(vars(region)) +
   labs(x = "Share of each sex", y = NULL, fill = NULL) +
   theme_minimal()
@@ -75,7 +91,8 @@ pyramid with `position = "pyramid"`:
 ggplot(subset(pop, region == "North"), aes(x = n, y = age, fill = sex)) +
   geom_pyramid(width = 1) +
   geom_text(aes(label = n, hjust = -0.15), position = "pyramid", size = 2.5) +
-  scale_x_continuous(labels = abs, expand = expansion(mult = 0.1)) +
+  scale_x_continuous(expand = expansion(mult = 0.1)) +
+  coord_pyramid() +
   labs(x = "Population", y = NULL, fill = NULL) +
   theme_minimal()
 ```
@@ -88,7 +105,7 @@ it separately stacks subgroups within each side:
 ``` r
 ggplot(pop, aes(x = n, y = age, fill = region, side = sex)) +
   geom_pyramid(width = 1) +
-  scale_x_continuous(labels = abs) +
+  coord_pyramid() +
   labs(x = "Population", y = NULL, fill = NULL) +
   theme_minimal()
 ```

@@ -25,8 +25,9 @@
 #' The data you supply stays positive. Inside the plot, values on the left side
 #' are negative, so a manual reference line or limit on that side carries a
 #' minus sign: `geom_vline(xintercept = -100)` or
-#' `scale_x_continuous(limits = c(-500, 500))`. To show the left side's axis
-#' labels without the sign, use `scale_x_continuous(labels = abs)`.
+#' `scale_x_continuous(limits = c(-500, 500))`. [coord_pyramid()] shows the
+#' axis labels without the sign; with another coordinate system, use
+#' `scale_x_continuous(labels = abs)`.
 #'
 #' @section Orientation:
 #' The axis that does not hold age is the one that gets mirrored. Age is the
@@ -37,7 +38,8 @@
 #' left. A fixed `hjust` set outside [ggplot2::aes()] is not mirrored.
 #'
 #' @returns A ggproto object of class `PositionPyramid`.
-#' @seealso [geom_pyramid()] for the bars of a pyramid.
+#' @seealso [geom_pyramid()] for the bars of a pyramid, and [coord_pyramid()]
+#'   for its axes.
 #' @export
 #' @examples
 #' library(ggplot2)
@@ -52,7 +54,8 @@
 #' ggplot(pop, aes(x = n, y = age, fill = sex)) +
 #'   geom_col(position = position_pyramid()) +
 #'   geom_text(aes(label = n, hjust = -0.2), position = "pyramid") +
-#'   scale_x_continuous(labels = abs, expand = expansion(mult = 0.15))
+#'   scale_x_continuous(expand = expansion(mult = 0.15)) +
+#'   coord_pyramid()
 #'
 #' # Subgroups stack within each side
 #' pop2 <- rbind(transform(pop, group = "A"), transform(pop, group = "B"))
@@ -115,6 +118,23 @@ PositionPyramid <- ggproto(
     ggproto_parent(PositionStack, self)$setup_data(data, params)
   },
 
+  # position_stack() splits rows into a negative and a positive pile by sign,
+  # which would put a zero on the left side into the right side's pile. Stack
+  # each side on its own instead, and keep the original row order.
+  compute_panel = function(self, data, params, scales) {
+    if (nrow(data) == 0) {
+      return(data)
+    }
+    on_left <- on_left_side(data, params$left)
+    parent <- ggproto_parent(PositionStack, self)
+    sides <- lapply(
+      list(data[on_left, , drop = FALSE], data[!on_left, , drop = FALSE]),
+      \(side) if (nrow(side) > 0) parent$compute_panel(side, params, scales)
+    )
+    stacked <- vec_rbind(!!!sides)
+    vec_slice(stacked, order(c(which(on_left), which(!on_left))))
+  },
+
   compute_layer = function(self, data, params, layout) {
     on_left <- on_left_side(data, params$left)
     negate <- function(x) ifelse(on_left, -x, x)
@@ -152,7 +172,23 @@ PositionPyramid <- ggproto(
     if (!is.null(data[[just]])) {
       data[[just]] <- mirror_just(data[[just]], on_left)
     }
-    data
+
+    # A zero on the left side becomes a negative zero, so that coord_pyramid()
+    # can put it on the left edge of a centre gap. It is computed, because the
+    # byte compiler turns a literal -0 into 0.
+    signed_zero <- function(x) {
+      zero <- on_left & !is.na(x) & x == 0
+      if (any(zero)) {
+        x <- as.double(x)
+        x[zero] <- -abs(x[zero])
+      }
+      x
+    }
+    if (params$flipped_aes) {
+      transform_position(data, trans_x = signed_zero)
+    } else {
+      transform_position(data, trans_y = signed_zero)
+    }
   }
 )
 

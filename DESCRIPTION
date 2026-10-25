@@ -17,7 +17,8 @@ Imports:
     ggplot2 (>= 4.0.0),
     rlang,
     stats,
-    utils
+    utils,
+    vctrs
 Suggests: 
     scales,
     testthat (>= 3.0.0),
