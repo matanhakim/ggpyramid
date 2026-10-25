@@ -178,6 +178,12 @@ ggplot(pop, aes(x = n, y = age, fill = sex)) +
 3. `geom_pyramid()` מציג מספרים מוחלטים כברירת מחדל. אחוזים זמינים דרך `after_stat(prop)` או פרמטר של ה-Stat.
 4. החבילה דורשת `ggplot2 (>= 4.0.0)`.
 
+ההחלטות שהתקבלו ב-25.10.2026, עם מימוש `coord_pyramid()`:
+
+5. כשיש פער במרכז, התווית "0" מופיעה בשני קצוות הפער, כי כל חצי מתחיל באפס משלו.
+6. `geom_pyramid()` מחזיר שכבה רגילה ואינו מוסיף את `coord_pyramid()` מעצמו. המשתמש מוסיף את ה-Coord במפורש.
+7. השלב הבא הוא שכבות הטקסט וקו המתאר, `geom_pyramid_text()` ו-`geom_pyramid_outline()`.
+
 ## 9. מקורות
 
 - apyramid: https://github.com/R4EPI/apyramid, https://CRAN.R-project.org/package=apyramid
