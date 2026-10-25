@@ -13,16 +13,18 @@ It is Matan Hakim’s personal open-source package, public on GitHub at
 author live next to it (`../il.cbs.muni`, `../rtlr`) and set the house
 conventions for DESCRIPTION, pkgdown and CI; match them.
 
-Status (Oct 2026): built
-[`geom_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid.md),
-[`stat_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid.md),
-[`position_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/position_pyramid.md)
-and
-[`coord_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/coord_pyramid.md).
-Next per the plan: text and outline layers (`geom_pyramid_text()`,
-`geom_pyramid_outline()`), `scale_x_pyramid()` and `theme_pyramid()`.
-Design research, the architecture alternatives and the agreed API live
-in `dev/design-research.md` (Hebrew); section 8 records Matan’s
+Status (Oct 2026): version 0.1.0, prepared for a first CRAN submission
+(`cran-comments.md`) but not yet submitted. Exports:
+[`geom_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid.md)/[`stat_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid.md),
+[`geom_pyramid_text()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid_text.md),
+[`geom_pyramid_outline()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid_outline.md),
+[`position_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/position_pyramid.md),
+[`coord_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/coord_pyramid.md),
+[`scale_x_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/scale_x_pyramid.md)/[`scale_y_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/scale_x_pyramid.md),
+[`theme_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/theme_pyramid.md)
+and the `europe_pop` data (built by `data-raw/europe_pop.R` from
+Eurostat). Design research, the architecture alternatives and the agreed
+API live in `dev/design-research.md` (Hebrew); section 8 records Matan’s
 decisions, and nothing is implemented ahead of it. Throwaway prototypes
 are in `dev/spikes/`; `dev/` is build-ignored.
 
@@ -42,7 +44,10 @@ age scale in `modify_scales()`, and opens the centre gap in
 and grid lines also pass through. A zero belongs to the side of its row;
 a lone zero on the left is a negative zero written by the Position.
 Build negative zeros with `-abs(x)`: the byte compiler folds a literal
-`-0` into `0`.
+`-0` into `0`. Absolute labels go through `magnitude()` (rounded to 12
+significant digits) so float noise cannot label the two sides
+differently. `GeomPyramidText` and `GeomPyramidOutline` prepare the data
+and delegate the drawing to `GeomText` and `GeomPath`.
 
 ## Commands
 
@@ -54,6 +59,7 @@ RS="/c/Program Files/R/R-4.5.2/bin/Rscript.exe"
 "$RS" -e 'devtools::test()'              # all tests
 "$RS" -e 'devtools::test(filter = "coord")'   # one file: tests/testthat/test-coord-pyramid.R
 "$RS" -e 'devtools::check()'             # full R CMD check
+# as CRAN: check(remote = TRUE, env_vars = c(NOT_CRAN = "false")); no LaTeX here
 "$RS" -e 'devtools::build_readme()'      # re-knit README.Rmd -> README.md
 "$RS" -e 'pkgdown::build_site()'         # local site into docs/ (gitignored)
 "$RS" -e 'lintr::lint_package()'

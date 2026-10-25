@@ -1,8 +1,9 @@
 pandoc: 3.8.3
 pkgdown: 2.2.1
 pkgdown_sha: ~
-articles: {}
-last_built: 2026-10-25T13:44Z
+articles:
+  ggpyramid: ggpyramid.html
+last_built: 2026-10-25T14:10Z
 urls:
   reference: https://matanhakim.github.io/ggpyramid/reference
   article: https://matanhakim.github.io/ggpyramid/articles

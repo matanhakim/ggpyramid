@@ -80,7 +80,8 @@ still given as negative numbers. Any `labels` given to
 [`ggplot2::scale_x_continuous()`](https://ggplot2.tidyverse.org/reference/scale_continuous.html)
 apply to the absolute values, for example
 `labels = scales::label_percent()`. With a gap, a break at zero is drawn
-on both inner edges.
+on both inner edges, so a gap narrower than two zero labels makes them
+overlap.
 
 ## Age axis
 
@@ -117,5 +118,5 @@ p + coord_pyramid(age_axis = "centre")
 
 
 # Age labels on both sides, with a narrow gap
-p + coord_pyramid(age_axis = "both", gap = 0.04)
+p + coord_pyramid(age_axis = "both", gap = 0.08)
 ```

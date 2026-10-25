@@ -11,12 +11,12 @@ Source:
 [`DESCRIPTION`](https://github.com/matanhakim/ggpyramid/blob/main/DESCRIPTION)
 
 Hakim M (2026). *ggpyramid: Population Pyramids with 'ggplot2'*. R
-package version 0.0.0.9000, <https://github.com/matanhakim/ggpyramid>.
+package version 0.1.0, <https://github.com/matanhakim/ggpyramid>.
 
     @Manual{,
       title = {ggpyramid: Population Pyramids with 'ggplot2'},
       author = {Matan Hakim},
       year = {2026},
-      note = {R package version 0.0.0.9000},
+      note = {R package version 0.1.0},
       url = {https://github.com/matanhakim/ggpyramid},
     }

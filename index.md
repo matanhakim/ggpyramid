@@ -4,11 +4,18 @@ ggpyramid is a [ggplot2](https://ggplot2.tidyverse.org) extension for
 building population pyramids: back-to-back bar charts of a population by
 age group and sex. A pyramid is one more layer in an ordinary ggplot, so
 scales, facets, themes and further layers work as they do anywhere else
-in ggplot2. The package is in early development.
+in ggplot2.
 
 ## Installation
 
-You can install the development version of ggpyramid from
+Install the released version of ggpyramid from CRAN with:
+
+``` r
+
+install.packages("ggpyramid")
+```
+
+Or the development version from
 [GitHub](https://github.com/matanhakim/ggpyramid) with:
 
 ``` r
@@ -20,93 +27,89 @@ pak::pak("matanhakim/ggpyramid")
 ## Example
 
 [`geom_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid.md)
-draws the bars. It sums a value when one is mapped, as here, and counts
-rows when it is not, so it accepts both aggregated data and individual
-records. The example data are synthetic.
+draws the bars and
+[`coord_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/coord_pyramid.md)
+the axes. The bars sum a value when one is mapped, as here, and count
+rows when it is not, so they accept aggregated tables and individual
+records alike. `europe_pop` holds the population of four European
+countries in 2004 and 2024, from Eurostat.
 
 ``` r
 
 library(ggplot2)
 library(ggpyramid)
 
-ages <- c(paste0(seq(0, 80, 5), "-", seq(4, 84, 5)), "85+")
-set.seed(1)
-pop <- expand.grid(
-  age = factor(ages, ages),
-  sex = factor(c("Male", "Female"), c("Male", "Female")),
-  region = c("North", "South")
-)
-pop$n <- round(1000 * exp(-as.integer(pop$age) / 9) * runif(nrow(pop), 0.9, 1.1))
+france <- subset(europe_pop, country == "France" & year == 2024)
 
-ggplot(subset(pop, region == "North"), aes(x = n, y = age, fill = sex)) +
+ggplot(france, aes(x = population, y = age, fill = sex)) +
   geom_pyramid(width = 1, colour = "white") +
-  coord_pyramid() +
-  labs(x = "Population", y = NULL, fill = NULL) +
-  theme_minimal()
+  scale_x_continuous(labels = scales::label_comma()) +
+  coord_pyramid(age_axis = "centre") +
+  labs(x = NULL, y = NULL, fill = NULL) +
+  theme_pyramid()
 ```
 
 ![](reference/figures/README-pyramid-1.png)
 
-[`coord_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/coord_pyramid.md)
-takes care of the axes. It labels both sides without a minus sign and
-gives them the same range, and it can move the age axis to the right, to
-both sides, or into a gap in the centre of the pyramid:
+`denominator` turns the bars into shares of the panel or of each side,
+and each facet gets its own denominator.
+[`geom_pyramid_outline()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid_outline.md)
+draws a second population as a stepped line over the bars:
 
 ``` r
 
-ggplot(subset(pop, region == "North"), aes(x = n, y = age, fill = sex)) +
-  geom_pyramid(width = 1, colour = "white") +
-  coord_pyramid(age_axis = "centre") +
-  labs(x = "Population", y = NULL, fill = NULL) +
-  theme_minimal() +
-  theme(panel.grid.major.y = element_blank())
-```
-
-![](reference/figures/README-centre-1.png)
-
-`denominator` turns the bars into proportions, of the whole panel or of
-each side, and each facet gets its own denominator.
-
-``` r
-
-ggplot(pop, aes(x = n, y = age, fill = sex)) +
-  geom_pyramid(denominator = "side", width = 1) +
+ggplot(europe_pop, aes(x = population, y = age, fill = sex)) +
+  geom_pyramid(data = ~ subset(.x, year == 2024), denominator = "total") +
+  geom_pyramid_outline(data = ~ subset(.x, year == 2004), denominator = "total") +
   scale_x_continuous(labels = scales::label_percent()) +
   coord_pyramid() +
-  facet_wrap(vars(region)) +
-  labs(x = "Share of each sex", y = NULL, fill = NULL) +
-  theme_minimal()
+  facet_wrap(vars(country)) +
+  labs(
+    x = NULL,
+    y = NULL,
+    fill = "2024",
+    caption = "Share of the population. The outline shows 2004."
+  ) +
+  theme_pyramid()
 ```
 
-![](reference/figures/README-proportions-1.png)
+![](reference/figures/README-compare-1.png)
 
-[`position_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/position_pyramid.md)
-does the mirroring, so any other layer can join the pyramid with
-`position = "pyramid"`:
+[`geom_pyramid_text()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid_text.md)
+labels each bar at its end, on both sides:
 
 ``` r
 
-ggplot(subset(pop, region == "North"), aes(x = n, y = age, fill = sex)) +
-  geom_pyramid(width = 1) +
-  geom_text(aes(label = n, hjust = -0.15), position = "pyramid", size = 2.5) +
-  scale_x_continuous(expand = expansion(mult = 0.1)) +
-  coord_pyramid() +
-  labs(x = "Population", y = NULL, fill = NULL) +
-  theme_minimal()
+ireland <- subset(europe_pop, country == "Ireland" & year == 2024)
+
+ggplot(ireland, aes(x = population, y = age, fill = sex)) +
+  geom_pyramid(denominator = "side") +
+  geom_pyramid_text(
+    denominator = "side",
+    labels = scales::label_percent(accuracy = 0.1),
+    size = 2.6
+  ) +
+  scale_x_continuous(
+    labels = scales::label_percent(),
+    expand = expansion(mult = 0.15)
+  ) +
+  coord_pyramid(age_axis = "centre") +
+  labs(x = "Share of each sex", y = NULL, fill = NULL) +
+  theme_pyramid()
 ```
 
 ![](reference/figures/README-labels-1.png)
 
-The side of each bar comes from `fill` unless `side` is mapped. Mapping
-it separately stacks subgroups within each side:
+[`vignette("ggpyramid")`](https://matanhakim.github.io/ggpyramid/articles/ggpyramid.md)
+covers the rest: placing the age axis, subgroups within each side,
+vertical pyramids, and how the two sides are drawn.
 
-``` r
+## Related work
 
-ggplot(pop, aes(x = n, y = age, fill = region, side = sex)) +
-  geom_pyramid(width = 1) +
-  coord_pyramid() +
-  labs(x = "Population", y = NULL, fill = NULL) +
-  theme_minimal()
-```
-
-![](reference/figures/README-subgroups-1.png)
+[apyramid](https://cran.r-project.org/package=apyramid) builds a
+complete pyramid from one function call.
+[`geom_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid.md)
+in [ggstats](https://cran.r-project.org/package=ggstats) is a layer that
+mirrors bars by their position in a stack. ggpyramid takes the side from
+a variable and adds the coordinate system, labels and outlines that a
+pyramid needs, each as a separate ggplot2 component.

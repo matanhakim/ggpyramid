@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ggpyramid</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.0.9000</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -15,7 +15,8 @@
     </button>
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
-      <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+      <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../articles/ggpyramid.html">Get started</a></li>
+<li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -50,12 +51,19 @@
 
         <dt>
 
-          <code><a href="position_pyramid.html">position_pyramid()</a></code>
+          <code><a href="geom_pyramid_text.html">geom_pyramid_text()</a></code>
 
         </dt>
-        <dd>Mirror one side of a population pyramid</dd>
+        <dd>Value labels on a population pyramid</dd>
+
+        <dt>
+
+          <code><a href="geom_pyramid_outline.html">geom_pyramid_outline()</a></code>
+
+        </dt>
+        <dd>A stepped outline of a population pyramid</dd>
       </dl></div><div class="section level2">
-      <h2 id="coordinates">Coordinates<a class="anchor" aria-label="anchor" href="#coordinates"></a></h2>
+      <h2 id="position-coordinates-and-scales">Position, coordinates and scales<a class="anchor" aria-label="anchor" href="#position-coordinates-and-scales"></a></h2>
 
 
 
@@ -66,10 +74,56 @@
 
       <dl><dt>
 
+          <code><a href="position_pyramid.html">position_pyramid()</a></code>
+
+        </dt>
+        <dd>Mirror one side of a population pyramid</dd>
+
+        <dt>
+
           <code><a href="coord_pyramid.html">coord_pyramid()</a></code>
 
         </dt>
         <dd>Cartesian coordinates for a population pyramid</dd>
+
+        <dt>
+
+          <code><a href="scale_x_pyramid.html">scale_x_pyramid()</a></code> <code><a href="scale_x_pyramid.html">scale_y_pyramid()</a></code>
+
+        </dt>
+        <dd>Position scales for the value axis of a pyramid</dd>
+      </dl></div><div class="section level2">
+      <h2 id="themes">Themes<a class="anchor" aria-label="anchor" href="#themes"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="theme_pyramid.html">theme_pyramid()</a></code>
+
+        </dt>
+        <dd>A theme for population pyramids</dd>
+      </dl></div><div class="section level2">
+      <h2 id="data">Data<a class="anchor" aria-label="anchor" href="#data"></a></h2>
+
+
+
+      <dl></dl></div><div class="section level2">
+
+
+
+
+      <dl><dt>
+
+          <code><a href="europe_pop.html">europe_pop</a></code>
+
+        </dt>
+        <dd>Population of four European countries by age group and sex</dd>
       </dl></div><div class="section level2">
       <h2 id="extending-ggpyramid">Extending ggpyramid<a class="anchor" aria-label="anchor" href="#extending-ggpyramid"></a></h2>
 
@@ -82,7 +136,7 @@
 
       <dl><dt>
 
-          <code><a href="ggpyramid-ggproto.html">CoordPyramid</a></code> <code><a href="ggpyramid-ggproto.html">ggpyramid-ggproto</a></code> <code><a href="ggpyramid-ggproto.html">PositionPyramid</a></code> <code><a href="ggpyramid-ggproto.html">StatPyramid</a></code>
+          <code><a href="ggpyramid-ggproto.html">CoordPyramid</a></code> <code><a href="ggpyramid-ggproto.html">GeomPyramidOutline</a></code> <code><a href="ggpyramid-ggproto.html">GeomPyramidText</a></code> <code><a href="ggpyramid-ggproto.html">ggpyramid-ggproto</a></code> <code><a href="ggpyramid-ggproto.html">PositionPyramid</a></code> <code><a href="ggpyramid-ggproto.html">StatPyramid</a></code>
 
         </dt>
         <dd>ggproto classes for ggpyramid</dd>
