@@ -52,8 +52,11 @@ side are negative, so a manual reference line or limit on that side
 carries a minus sign: `geom_vline(xintercept = -100)` or
 `scale_x_continuous(limits = c(-500, 500))`.
 [`coord_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/coord_pyramid.md)
-shows the axis labels without the sign; with another coordinate system,
-use `scale_x_continuous(labels = abs)`.
+shows the axis labels without the sign; with another coordinate system
+or in a vertical pyramid, use
+[`scale_x_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/scale_x_pyramid.md)
+or
+[`scale_y_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/scale_x_pyramid.md).
 
 ## Orientation
 
