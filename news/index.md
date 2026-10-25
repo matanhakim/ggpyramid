@@ -7,7 +7,8 @@
   is a coordinate system for horizontal pyramids. It labels the value
   axis without the minus sign on the left side, makes it symmetric
   around zero, and places the age axis on the left, on the right, on
-  both sides or in a gap in the centre.
+  both sides or in a gap in the centre. Its `left` argument chooses the
+  side drawn on the left for every layer of the plot.
 - `europe_pop` holds the population of France, Ireland, Italy and Poland
   in 2004 and 2024 by age group and sex, from Eurostat, for examples.
 - [`geom_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid.md)

@@ -79,7 +79,9 @@ stat_pyramid(
   A position adjustment. The default, `"pyramid"`, is
   [`position_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/position_pyramid.md);
   call it to set its arguments, for example
-  `position = position_pyramid(left = "Female")`.
+  `position = position_pyramid(reverse = TRUE)`. To choose the side
+  drawn on the left for every layer, use
+  `coord_pyramid(left = "Female")`.
 
 - ...:
 

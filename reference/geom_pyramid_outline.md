@@ -66,8 +66,8 @@ geom_pyramid_outline(
 
   A position adjustment. The default mirrors the left side without
   stacking, as `position_pyramid(stack = FALSE)`, so that one line per
-  side follows the total. Use `position_pyramid(left = ...)` to match
-  the bars when they set `left`.
+  side follows the total. The outline follows the side set by
+  `coord_pyramid(left = ...)`.
 
 - ...:
 

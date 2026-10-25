@@ -49,14 +49,29 @@ ggplot(france, aes(x = population, y = age, fill = sex)) +
 ![](ggpyramid_files/figure-html/first-1.png)
 
 The first level of the side variable goes on the left, so `Male` is
-drawn on the left here because it is the first level of `sex`. To choose
-another side, pass `left` to the position, and pass the same position to
-every layer of the pyramid:
+drawn on the left here because it is the first level of `sex`. `left` in
+[`coord_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/coord_pyramid.md)
+chooses the other side for every layer of the plot at once. The legend
+keeps the order of the levels, and `breaks` in the fill scale reorders
+it to match:
 
 ``` r
 
-geom_pyramid(position = position_pyramid(left = "Female"))
+ggplot(france, aes(x = population, y = age, fill = sex)) +
+  geom_pyramid() +
+  scale_x_continuous(labels = scales::label_comma()) +
+  scale_fill_discrete(breaks = c("Female", "Male")) +
+  coord_pyramid(left = "Female")
 ```
+
+![](ggpyramid_files/figure-html/left-1.png)
+
+A single layer can take another side with
+`position_pyramid(left = ...)`, which overrides the coordinate system.
+Without
+[`coord_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/coord_pyramid.md),
+as in a vertical pyramid, reorder the levels of the side variable
+instead.
 
 [`geom_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid.md)
 sums the value it is given within each age group, and counts rows when

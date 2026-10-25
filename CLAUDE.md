@@ -32,14 +32,17 @@ Architecture: `PositionPyramid` (inherits `PositionStack`) owns
 correctness. It negates the value axis for the `left` side, then stacks
 within each side, so any geom can take `position = "pyramid"`. The side
 comes from the `side` aesthetic (declared in the Position’s
-`default_aes`), else `fill`, else `colour`. `StatPyramid` counts rows or
-sums a mapped value and writes counts or, with `denominator`,
-proportions straight into the value axis; the constructors attach a
-child stat whose `default_aes` only names the axis. Orientation defaults
-to horizontal (age on y) when both axes are continuous. `CoordPyramid`
-(inherits `CoordCartesian`, horizontal only) owns the look: it wraps the
-x view scale for absolute labels, makes the limits symmetric, moves the
-age scale in `modify_scales()`, and opens the centre gap in
+`default_aes`), else `fill`, else `colour`. The side drawn on the left
+is `position_pyramid(left)`, else `coord_pyramid(left)` (read from
+`layout$coord` in `compute_layer()`), else the first factor level.
+`StatPyramid` counts rows or sums a mapped value and writes counts or,
+with `denominator`, proportions straight into the value axis; the
+constructors attach a child stat whose `default_aes` only names the
+axis. Orientation defaults to horizontal (age on y) when both axes are
+continuous. `CoordPyramid` (inherits `CoordCartesian`, horizontal only)
+owns the look: it wraps the x view scale for absolute labels, makes the
+limits symmetric, moves the age scale in `modify_scales()`, and opens
+the centre gap in
 [`transform()`](https://rdrr.io/r/base/transform.html), which axis keys
 and grid lines also pass through. A zero belongs to the side of its row;
 a lone zero on the left is a negative zero written by the Position.

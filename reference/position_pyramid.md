@@ -15,9 +15,12 @@ position_pyramid(left = NULL, stack = TRUE, vjust = 1, reverse = FALSE)
 
 - left:
 
-  The value of the side variable drawn on the left. Defaults to the
-  first level when the side variable is a factor, and to the first value
-  in sorted order otherwise.
+  The value of the side variable drawn on the left in this layer.
+  Overrides the `left` of
+  [`coord_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/coord_pyramid.md),
+  which sets the side for every layer at once. Without either, the first
+  level is drawn on the left when the side variable is a factor, and the
+  first value in sorted order otherwise.
 
 - stack:
 
@@ -98,5 +101,6 @@ ggplot(pop, aes(x = n, y = age, fill = sex)) +
 # Subgroups stack within each side
 pop2 <- rbind(transform(pop, group = "A"), transform(pop, group = "B"))
 ggplot(pop2, aes(x = n, y = age, fill = group, side = sex)) +
-  geom_col(position = position_pyramid(left = "Female"))
+  geom_col(position = "pyramid") +
+  coord_pyramid(left = "Female")
 ```

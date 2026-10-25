@@ -68,8 +68,9 @@ geom_pyramid_text(
 
   A position adjustment. The default, `"pyramid"`, is
   [`position_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/position_pyramid.md),
-  which places each label at the outer end of its bar. Use the same
-  position as the bars, for example `position_pyramid(left = "Female")`.
+  which places each label at the outer end of its bar. Labels follow the
+  side set by `coord_pyramid(left = ...)`; a position given to the bars
+  should be given to the labels as well.
 
 - ...:
 

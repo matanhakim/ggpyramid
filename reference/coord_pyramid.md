@@ -13,6 +13,7 @@ the pyramid, optionally in a gap between the two sides.
 ``` r
 coord_pyramid(
   age_axis = c("left", "right", "both", "centre", "none"),
+  left = NULL,
   gap = NULL,
   symmetric = TRUE,
   xlim = NULL,
@@ -29,6 +30,17 @@ coord_pyramid(
   Where to draw the age axis: `"left"`, `"right"`, `"both"`, `"centre"`
   (between the two sides, see Age axis below) or `"none"`. `"center"` is
   accepted as well.
+
+- left:
+
+  The value of the side variable drawn on the left, such as `"Female"`,
+  for every layer drawn with
+  [`position_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/position_pyramid.md).
+  A layer can override it with `position_pyramid(left = ...)`. Defaults
+  to the first level when the side variable is a factor, and to the
+  first value in sorted order otherwise. The legend keeps its own order;
+  set it with, for example,
+  `scale_fill_discrete(breaks = c("Female", "Male"))`.
 
 - gap:
 
@@ -111,6 +123,10 @@ p <- ggplot(pop, aes(x = n, y = age, fill = sex)) +
   geom_pyramid()
 
 p + coord_pyramid()
+
+
+# Women on the left
+p + coord_pyramid(left = "Female")
 
 
 # Age labels in a gap between the two sides
