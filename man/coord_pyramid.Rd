@@ -62,7 +62,8 @@ values that \code{\link[=position_pyramid]{position_pyramid()}} produces, so bre
 lines on the left side are still given as negative numbers. Any \code{labels}
 given to \code{\link[ggplot2:scale_continuous]{ggplot2::scale_x_continuous()}} apply to the absolute values, for
 example \code{labels = scales::label_percent()}. With a gap, a break at zero is
-drawn on both inner edges.
+drawn on both inner edges, so a gap narrower than two zero labels makes them
+overlap.
 }
 
 \section{Age axis}{
@@ -92,7 +93,7 @@ p + coord_pyramid()
 p + coord_pyramid(age_axis = "centre")
 
 # Age labels on both sides, with a narrow gap
-p + coord_pyramid(age_axis = "both", gap = 0.04)
+p + coord_pyramid(age_axis = "both", gap = 0.08)
 }
 \seealso{
 \code{\link[=position_pyramid]{position_pyramid()}}, which mirrors the left side.

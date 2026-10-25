@@ -122,3 +122,16 @@ test_that("coord_pyramid() needs the values on the x axis", {
 
   expect_snapshot(error = TRUE, ggplot2::ggplot_build(p))
 })
+
+test_that("labels are the same on both sides despite rounding noise", {
+  df <- transform(pyramid_data(), n = n / 4400)
+  p <- ggplot2::ggplot(df, ggplot2::aes(n, age, fill = sex)) +
+    geom_pyramid() +
+    ggplot2::scale_x_continuous(
+      breaks = c(-0.05 * (1 + 4 * .Machine$double.eps), 0, 0.05),
+      labels = scales::label_percent()
+    ) +
+    coord_pyramid()
+
+  expect_equal(panel_params(p)$x$get_labels(), c("5%", "0%", "5%"))
+})

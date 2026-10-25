@@ -11,3 +11,6 @@
 ^pkgdown$
 ^dev$
 ^\.lintr$
+^data-raw$
+^cran-comments\.md$
+^CRAN-SUBMISSION$

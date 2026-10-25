@@ -22,7 +22,8 @@
 #' lines on the left side are still given as negative numbers. Any `labels`
 #' given to [ggplot2::scale_x_continuous()] apply to the absolute values, for
 #' example `labels = scales::label_percent()`. With a gap, a break at zero is
-#' drawn on both inner edges.
+#' drawn on both inner edges, so a gap narrower than two zero labels makes them
+#' overlap.
 #'
 #' @section Age axis:
 #' `"left"` and `"right"` move the age scale to that side together with its
@@ -52,7 +53,7 @@
 #' p + coord_pyramid(age_axis = "centre")
 #'
 #' # Age labels on both sides, with a narrow gap
-#' p + coord_pyramid(age_axis = "both", gap = 0.04)
+#' p + coord_pyramid(age_axis = "both", gap = 0.08)
 coord_pyramid <- function(
   age_axis = c("left", "right", "both", "centre", "none"),
   gap = NULL,
@@ -204,10 +205,10 @@ pyramid_view_scale <- function(view, split_zero) {
     # to the scale keeps the length of its `breaks`.
     get_labels = function(self, breaks = self$get_breaks()) {
       if (!split_zero) {
-        return(view$scale$get_labels(abs(breaks)))
+        return(view$scale$get_labels(magnitude(breaks)))
       }
       own <- view$get_breaks()
-      labels <- view$scale$get_labels(abs(own))
+      labels <- view$scale$get_labels(magnitude(own))
       zero <- zero_break(own)
       if (is.na(zero)) {
         return(labels)
@@ -268,4 +269,11 @@ open_gap <- function(data, left, panel_params, gap) {
     data[[column]] <- data[[column]] * (1 - gap) + gap * !left[[column]]
   }
   data
+}
+
+# Absolute values for labelling. Breaks computed around zero can differ in the
+# last bits between the two sides, enough for a label function that picks its
+# own precision to round 0.025 up on one side and down on the other.
+magnitude <- function(x) {
+  signif(abs(x), 12)
 }

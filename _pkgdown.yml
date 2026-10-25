@@ -6,10 +6,19 @@ reference:
 - title: Layers
   contents:
   - geom_pyramid
-  - position_pyramid
-- title: Coordinates
+  - geom_pyramid_text
+  - geom_pyramid_outline
+- title: Position, coordinates and scales
   contents:
+  - position_pyramid
   - coord_pyramid
+  - scale_x_pyramid
+- title: Themes
+  contents:
+  - theme_pyramid
+- title: Data
+  contents:
+  - europe_pop
 - title: Extending ggpyramid
   contents:
   - ggpyramid-ggproto

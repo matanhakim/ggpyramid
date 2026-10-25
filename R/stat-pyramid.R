@@ -35,29 +35,26 @@ stat_pyramid <- function(
 
 # The stat writes the counts or proportions straight into the value axis, so
 # that every layer using it agrees with the `denominator` it was given. This
-# child only adds a default mapping that names the axis after what it shows.
-pyramid_stat <- function(denominator = NULL, call = rlang::caller_env()) {
-  if (is.null(denominator)) {
-    return(ggproto(
-      NULL,
-      StatPyramid,
-      default_aes = aes(
-        x = after_stat(count),
-        y = after_stat(count),
-        weight = 1
-      )
-    ))
+# child only adds a default mapping that names the axis after what it shows,
+# and the label for text layers.
+pyramid_stat <- function(
+  denominator = NULL,
+  label = FALSE,
+  call = rlang::caller_env()
+) {
+  if (!is.null(denominator)) {
+    rlang::arg_match0(denominator, c("total", "side"), error_call = call)
   }
-  rlang::arg_match0(denominator, c("total", "side"), error_call = call)
-  ggproto(
-    NULL,
-    StatPyramid,
-    default_aes = aes(
-      x = after_stat(prop),
-      y = after_stat(prop),
-      weight = 1
-    )
-  )
+  shown <- if (is.null(denominator)) {
+    quote(after_stat(count))
+  } else {
+    quote(after_stat(prop))
+  }
+  mapping <- list(x = shown, y = shown, weight = 1)
+  if (label) {
+    mapping$label <- shown
+  }
+  ggproto(NULL, StatPyramid, default_aes = aes(!!!mapping))
 }
 
 #' @rdname ggpyramid-ggproto
