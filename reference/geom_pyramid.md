@@ -164,7 +164,9 @@ These can be used with
 ## See also
 
 [`position_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/position_pyramid.md)
-to mirror other layers.
+to mirror other layers, and
+[`coord_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/coord_pyramid.md)
+for the axes of a pyramid.
 
 ## Examples
 
@@ -180,7 +182,7 @@ pop <- data.frame(
 # Aggregated data: the value is summed
 ggplot(pop, aes(x = n, y = age, fill = sex)) +
   geom_pyramid() +
-  scale_x_continuous(labels = abs)
+  coord_pyramid()
 
 
 # Individual records: rows are counted
@@ -192,6 +194,7 @@ ggplot(people, aes(y = age, fill = sex)) +
 # Percentages of each side
 ggplot(pop, aes(x = n, y = age, fill = sex)) +
   geom_pyramid(denominator = "side") +
-  scale_x_continuous(labels = \(x) scales::percent(abs(x))) +
+  scale_x_continuous(labels = scales::label_percent()) +
+  coord_pyramid() +
   labs(x = "Share of each sex")
 ```

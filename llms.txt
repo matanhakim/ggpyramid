@@ -40,12 +40,29 @@ pop$n <- round(1000 * exp(-as.integer(pop$age) / 9) * runif(nrow(pop), 0.9, 1.1)
 
 ggplot(subset(pop, region == "North"), aes(x = n, y = age, fill = sex)) +
   geom_pyramid(width = 1, colour = "white") +
-  scale_x_continuous(labels = abs) +
+  coord_pyramid() +
   labs(x = "Population", y = NULL, fill = NULL) +
   theme_minimal()
 ```
 
 ![](reference/figures/README-pyramid-1.png)
+
+[`coord_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/coord_pyramid.md)
+takes care of the axes. It labels both sides without a minus sign and
+gives them the same range, and it can move the age axis to the right, to
+both sides, or into a gap in the centre of the pyramid:
+
+``` r
+
+ggplot(subset(pop, region == "North"), aes(x = n, y = age, fill = sex)) +
+  geom_pyramid(width = 1, colour = "white") +
+  coord_pyramid(age_axis = "centre") +
+  labs(x = "Population", y = NULL, fill = NULL) +
+  theme_minimal() +
+  theme(panel.grid.major.y = element_blank())
+```
+
+![](reference/figures/README-centre-1.png)
 
 `denominator` turns the bars into proportions, of the whole panel or of
 each side, and each facet gets its own denominator.
@@ -54,7 +71,8 @@ each side, and each facet gets its own denominator.
 
 ggplot(pop, aes(x = n, y = age, fill = sex)) +
   geom_pyramid(denominator = "side", width = 1) +
-  scale_x_continuous(labels = \(x) scales::percent(abs(x))) +
+  scale_x_continuous(labels = scales::label_percent()) +
+  coord_pyramid() +
   facet_wrap(vars(region)) +
   labs(x = "Share of each sex", y = NULL, fill = NULL) +
   theme_minimal()
@@ -71,7 +89,8 @@ does the mirroring, so any other layer can join the pyramid with
 ggplot(subset(pop, region == "North"), aes(x = n, y = age, fill = sex)) +
   geom_pyramid(width = 1) +
   geom_text(aes(label = n, hjust = -0.15), position = "pyramid", size = 2.5) +
-  scale_x_continuous(labels = abs, expand = expansion(mult = 0.1)) +
+  scale_x_continuous(expand = expansion(mult = 0.1)) +
+  coord_pyramid() +
   labs(x = "Population", y = NULL, fill = NULL) +
   theme_minimal()
 ```
@@ -85,7 +104,7 @@ it separately stacks subgroups within each side:
 
 ggplot(pop, aes(x = n, y = age, fill = region, side = sex)) +
   geom_pyramid(width = 1) +
-  scale_x_continuous(labels = abs) +
+  coord_pyramid() +
   labs(x = "Population", y = NULL, fill = NULL) +
   theme_minimal()
 ```
@@ -102,9 +121,15 @@ ggplot(pop, aes(x = n, y = age, fill = region, side = sex)) +
 - [`position_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/position_pyramid.md)
   : Mirror one side of a population pyramid
 
+## Coordinates
+
+- [`coord_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/coord_pyramid.md)
+  : Cartesian coordinates for a population pyramid
+
 ## Extending ggpyramid
 
-- [`ggpyramid-ggproto`](https://matanhakim.github.io/ggpyramid/reference/ggpyramid-ggproto.md)
+- [`CoordPyramid`](https://matanhakim.github.io/ggpyramid/reference/ggpyramid-ggproto.md)
+  [`ggpyramid-ggproto`](https://matanhakim.github.io/ggpyramid/reference/ggpyramid-ggproto.md)
   [`PositionPyramid`](https://matanhakim.github.io/ggpyramid/reference/ggpyramid-ggproto.md)
   [`StatPyramid`](https://matanhakim.github.io/ggpyramid/reference/ggpyramid-ggproto.md)
   : ggproto classes for ggpyramid

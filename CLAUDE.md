@@ -13,17 +13,18 @@ It is Matan Hakim’s personal open-source package, public on GitHub at
 author live next to it (`../il.cbs.muni`, `../rtlr`) and set the house
 conventions for DESCRIPTION, pkgdown and CI; match them.
 
-Status (Oct 2026): first layers built:
+Status (Oct 2026): built
 [`geom_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid.md),
-[`stat_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid.md)
+[`stat_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid.md),
+[`position_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/position_pyramid.md)
 and
-[`position_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/position_pyramid.md).
-Next per the plan: `coord_pyramid()` (age axis placement, centre gap,
-absolute labels, symmetric limits), then text and outline layers. Design
-research, the architecture alternatives and the agreed API live in
-`dev/design-research.md` (Hebrew); section 8 records Matan’s decisions,
-and nothing is implemented ahead of it. Throwaway prototypes are in
-`dev/spikes/`; `dev/` is build-ignored.
+[`coord_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/coord_pyramid.md).
+Next per the plan: text and outline layers (`geom_pyramid_text()`,
+`geom_pyramid_outline()`), `scale_x_pyramid()` and `theme_pyramid()`.
+Design research, the architecture alternatives and the agreed API live
+in `dev/design-research.md` (Hebrew); section 8 records Matan’s
+decisions, and nothing is implemented ahead of it. Throwaway prototypes
+are in `dev/spikes/`; `dev/` is build-ignored.
 
 Architecture: `PositionPyramid` (inherits `PositionStack`) owns
 correctness. It negates the value axis for the `left` side, then stacks
@@ -33,7 +34,15 @@ comes from the `side` aesthetic (declared in the Position’s
 sums a mapped value and writes counts or, with `denominator`,
 proportions straight into the value axis; the constructors attach a
 child stat whose `default_aes` only names the axis. Orientation defaults
-to horizontal (age on y) when both axes are continuous.
+to horizontal (age on y) when both axes are continuous. `CoordPyramid`
+(inherits `CoordCartesian`, horizontal only) owns the look: it wraps the
+x view scale for absolute labels, makes the limits symmetric, moves the
+age scale in `modify_scales()`, and opens the centre gap in
+[`transform()`](https://rdrr.io/r/base/transform.html), which axis keys
+and grid lines also pass through. A zero belongs to the side of its row;
+a lone zero on the left is a negative zero written by the Position.
+Build negative zeros with `-abs(x)`: the byte compiler folds a literal
+`-0` into `0`.
 
 ## Commands
 
@@ -43,7 +52,7 @@ R is not on PATH in the Bash tool. Use the full path:
 RS="/c/Program Files/R/R-4.5.2/bin/Rscript.exe"
 "$RS" -e 'devtools::document()'          # regenerate man/ and NAMESPACE from roxygen
 "$RS" -e 'devtools::test()'              # all tests
-"$RS" -e 'devtools::test(filter = "package")'   # one file: tests/testthat/test-package.R
+"$RS" -e 'devtools::test(filter = "coord")'   # one file: tests/testthat/test-coord-pyramid.R
 "$RS" -e 'devtools::check()'             # full R CMD check
 "$RS" -e 'devtools::build_readme()'      # re-knit README.Rmd -> README.md
 "$RS" -e 'pkgdown::build_site()'         # local site into docs/ (gitignored)
@@ -51,8 +60,11 @@ RS="/c/Program Files/R/R-4.5.2/bin/Rscript.exe"
 air format R tests                       # format package code (not dev/ spikes)
 ```
 
-`vdiffr` (visual snapshot tests for plots) is not installed locally;
-install it and add it to Suggests before writing plot snapshot tests.
+Plot tests use `vdiffr` snapshots in `tests/testthat/_snaps/`; review
+changed ones with
+[`testthat::snapshot_review()`](https://testthat.r-lib.org/reference/snapshot_accept.html).
+Multi-line `Rscript -e` calls print nothing in the Bash tool; write the
+code to a file in the scratchpad and run that.
 
 ## Conventions
 

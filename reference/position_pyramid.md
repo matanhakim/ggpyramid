@@ -50,8 +50,10 @@ the right.
 The data you supply stays positive. Inside the plot, values on the left
 side are negative, so a manual reference line or limit on that side
 carries a minus sign: `geom_vline(xintercept = -100)` or
-`scale_x_continuous(limits = c(-500, 500))`. To show the left side's
-axis labels without the sign, use `scale_x_continuous(labels = abs)`.
+`scale_x_continuous(limits = c(-500, 500))`.
+[`coord_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/coord_pyramid.md)
+shows the axis labels without the sign; with another coordinate system,
+use `scale_x_continuous(labels = abs)`.
 
 ## Orientation
 
@@ -67,7 +69,9 @@ not mirrored.
 ## See also
 
 [`geom_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid.md)
-for the bars of a pyramid.
+for the bars of a pyramid, and
+[`coord_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/coord_pyramid.md)
+for its axes.
 
 ## Examples
 
@@ -84,7 +88,8 @@ pop <- data.frame(
 ggplot(pop, aes(x = n, y = age, fill = sex)) +
   geom_col(position = position_pyramid()) +
   geom_text(aes(label = n, hjust = -0.2), position = "pyramid") +
-  scale_x_continuous(labels = abs, expand = expansion(mult = 0.15))
+  scale_x_continuous(expand = expansion(mult = 0.15)) +
+  coord_pyramid()
 
 
 # Subgroups stack within each side
