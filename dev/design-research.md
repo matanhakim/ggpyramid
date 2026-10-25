@@ -184,6 +184,12 @@ ggplot(pop, aes(x = n, y = age, fill = sex)) +
 6. `geom_pyramid()` מחזיר שכבה רגילה ואינו מוסיף את `coord_pyramid()` מעצמו. המשתמש מוסיף את ה-Coord במפורש.
 7. השלב הבא הוא שכבות הטקסט וקו המתאר, `geom_pyramid_text()` ו-`geom_pyramid_outline()`.
 
+ההחלטות שהתקבלו ב-25.10.2026, עם הכנת גרסה 0.1.0:
+
+8. התוויות של `geom_pyramid_text()` מופיעות מחוץ לקצה העמודה כברירת מחדל (`place = "outside"`).
+9. `geom_pyramid_outline()` מצייר קו מדורג אחד לכל צד, שמתחיל באפס וחוזר אליו.
+10. ההגשה ל-CRAN ממתינה. את בדיקות win-builder מתן מריץ בעצמו.
+
 ## 9. מקורות
 
 - apyramid: https://github.com/R4EPI/apyramid, https://CRAN.R-project.org/package=apyramid
