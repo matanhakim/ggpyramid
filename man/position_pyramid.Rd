@@ -7,9 +7,11 @@
 position_pyramid(left = NULL, stack = TRUE, vjust = 1, reverse = FALSE)
 }
 \arguments{
-\item{left}{The value of the side variable drawn on the left. Defaults to
-the first level when the side variable is a factor, and to the first value
-in sorted order otherwise.}
+\item{left}{The value of the side variable drawn on the left in this layer.
+Overrides the \code{left} of \code{\link[=coord_pyramid]{coord_pyramid()}}, which sets the side for every
+layer at once. Without either, the first level is drawn on the left when
+the side variable is a factor, and the first value in sorted order
+otherwise.}
 
 \item{stack}{If \code{TRUE}, rows that share an age group and a side are stacked
 away from the centre, as in \code{\link[ggplot2:position_stack]{ggplot2::position_stack()}}. If \code{FALSE}, they
@@ -75,7 +77,8 @@ ggplot(pop, aes(x = n, y = age, fill = sex)) +
 # Subgroups stack within each side
 pop2 <- rbind(transform(pop, group = "A"), transform(pop, group = "B"))
 ggplot(pop2, aes(x = n, y = age, fill = group, side = sex)) +
-  geom_col(position = position_pyramid(left = "Female"))
+  geom_col(position = "pyramid") +
+  coord_pyramid(left = "Female")
 }
 \seealso{
 \code{\link[=geom_pyramid]{geom_pyramid()}} for the bars of a pyramid, and \code{\link[=coord_pyramid]{coord_pyramid()}}

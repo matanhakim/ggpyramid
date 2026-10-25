@@ -25,7 +25,9 @@ Architecture: `PositionPyramid` (inherits `PositionStack`) owns correctness. It
 negates the value axis for the `left` side, then stacks within each side, so
 any geom can take `position = "pyramid"`. The side comes from the `side`
 aesthetic (declared in the Position's `default_aes`), else `fill`, else
-`colour`. `StatPyramid` counts rows or sums a mapped value and writes counts
+`colour`. The side drawn on the left is `position_pyramid(left)`, else
+`coord_pyramid(left)` (read from `layout$coord` in `compute_layer()`), else the
+first factor level. `StatPyramid` counts rows or sums a mapped value and writes counts
 or, with `denominator`, proportions straight into the value axis; the
 constructors attach a child stat whose `default_aes` only names the axis.
 Orientation defaults to horizontal (age on y) when both axes are continuous.

@@ -47,3 +47,11 @@
       Error in `position_pyramid()`:
       ! `stack` must be `TRUE` or `FALSE`.
 
+---
+
+    Code
+      coord_pyramid(left = NA)
+    Condition
+      Error in `coord_pyramid()`:
+      ! `left` must be a single value of the side variable.
+

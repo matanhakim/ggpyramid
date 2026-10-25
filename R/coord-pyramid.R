@@ -9,6 +9,12 @@
 #' @param age_axis Where to draw the age axis: `"left"`, `"right"`, `"both"`,
 #'   `"centre"` (between the two sides, see Age axis below) or `"none"`.
 #'   `"center"` is accepted as well.
+#' @param left The value of the side variable drawn on the left, such as
+#'   `"Female"`, for every layer drawn with [position_pyramid()]. A layer can
+#'   override it with `position_pyramid(left = ...)`. Defaults to the first
+#'   level when the side variable is a factor, and to the first value in sorted
+#'   order otherwise. The legend keeps its own order; set it with, for
+#'   example, `scale_fill_discrete(breaks = c("Female", "Male"))`.
 #' @param gap The width of an empty strip between the two sides, as a
 #'   proportion of the panel width. Defaults to `0.12` when `age_axis` is
 #'   `"centre"`, which leaves room for the age labels, and to `0` otherwise.
@@ -49,6 +55,9 @@
 #'
 #' p + coord_pyramid()
 #'
+#' # Women on the left
+#' p + coord_pyramid(left = "Female")
+#'
 #' # Age labels in a gap between the two sides
 #' p + coord_pyramid(age_axis = "centre")
 #'
@@ -56,6 +65,7 @@
 #' p + coord_pyramid(age_axis = "both", gap = 0.08)
 coord_pyramid <- function(
   age_axis = c("left", "right", "both", "centre", "none"),
+  left = NULL,
   gap = NULL,
   symmetric = TRUE,
   xlim = NULL,
@@ -67,6 +77,7 @@ coord_pyramid <- function(
     age_axis <- "centre"
   }
   age_axis <- rlang::arg_match(age_axis)
+  check_left(left)
   gap <- gap %||% if (age_axis == "centre") 0.12 else 0
   if (
     !is.numeric(gap) || length(gap) != 1 || is.na(gap) || gap < 0 || gap >= 1
@@ -81,6 +92,7 @@ coord_pyramid <- function(
     CoordPyramid,
     limits = list(x = xlim, y = ylim),
     age_axis = age_axis,
+    left = left,
     gap = gap,
     symmetric = symmetric,
     expand = expand,
@@ -98,6 +110,7 @@ CoordPyramid <- ggproto(
   "CoordPyramid",
   CoordCartesian,
   age_axis = "left",
+  left = NULL,
   gap = 0,
   symmetric = TRUE,
 

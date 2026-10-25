@@ -16,8 +16,8 @@
 #' @inheritParams ggplot2::geom_path
 #' @param position A position adjustment. The default mirrors the left side
 #'   without stacking, as `position_pyramid(stack = FALSE)`, so that one line
-#'   per side follows the total. Use `position_pyramid(left = ...)` to match
-#'   the bars when they set `left`.
+#'   per side follows the total. The outline follows the side set by
+#'   `coord_pyramid(left = ...)`.
 #' @param ... Other arguments passed on to [ggplot2::layer()], such as fixed
 #'   aesthetics like `colour = "black"` or `linewidth = 0.8`.
 #'

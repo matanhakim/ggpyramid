@@ -6,6 +6,7 @@
 \usage{
 coord_pyramid(
   age_axis = c("left", "right", "both", "centre", "none"),
+  left = NULL,
   gap = NULL,
   symmetric = TRUE,
   xlim = NULL,
@@ -18,6 +19,13 @@ coord_pyramid(
 \item{age_axis}{Where to draw the age axis: \code{"left"}, \code{"right"}, \code{"both"},
 \code{"centre"} (between the two sides, see Age axis below) or \code{"none"}.
 \code{"center"} is accepted as well.}
+
+\item{left}{The value of the side variable drawn on the left, such as
+\code{"Female"}, for every layer drawn with \code{\link[=position_pyramid]{position_pyramid()}}. A layer can
+override it with \code{position_pyramid(left = ...)}. Defaults to the first
+level when the side variable is a factor, and to the first value in sorted
+order otherwise. The legend keeps its own order; set it with, for
+example, \code{scale_fill_discrete(breaks = c("Female", "Male"))}.}
 
 \item{gap}{The width of an empty strip between the two sides, as a
 proportion of the panel width. Defaults to \code{0.12} when \code{age_axis} is
@@ -88,6 +96,9 @@ p <- ggplot(pop, aes(x = n, y = age, fill = sex)) +
   geom_pyramid()
 
 p + coord_pyramid()
+
+# Women on the left
+p + coord_pyramid(left = "Female")
 
 # Age labels in a gap between the two sides
 p + coord_pyramid(age_axis = "centre")

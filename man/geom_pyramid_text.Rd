@@ -49,8 +49,8 @@ layer. The default, \code{"pyramid"}, is \code{\link[=stat_pyramid]{stat_pyramid
 
 \item{position}{A position adjustment. The default, \code{"pyramid"}, is
 \code{\link[=position_pyramid]{position_pyramid()}}, which places each label at the outer end of its
-bar. Use the same position as the bars, for example
-\code{position_pyramid(left = "Female")}.}
+bar. Labels follow the side set by \code{coord_pyramid(left = ...)}; a
+position given to the bars should be given to the labels as well.}
 
 \item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}}, such as fixed
 aesthetics like \code{size = 3} or \code{colour = "grey30"}.}

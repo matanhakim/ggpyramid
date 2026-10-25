@@ -50,6 +50,21 @@ pyramid_left <- function(side, left = NULL, call = NULL) {
   left
 }
 
+# `left` from the layer's position, else from coord_pyramid(), so that one
+# setting on the coordinate system reaches every layer of the plot.
+layer_left <- function(left, coord) {
+  if (is.null(left) && inherits(coord, "CoordPyramid")) coord$left else left
+}
+
+check_left <- function(left, call = rlang::caller_env()) {
+  if (!is.null(left) && (!rlang::is_scalar_atomic(left) || is.na(left))) {
+    cli::cli_abort(
+      "{.arg left} must be a single value of the side variable.",
+      call = call
+    )
+  }
+}
+
 on_left_side <- function(data, left) {
   side <- as.character(pyramid_side(data))
   !is.na(side) & side == left

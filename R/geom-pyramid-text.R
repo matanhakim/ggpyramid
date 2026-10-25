@@ -10,8 +10,8 @@
 #' @inheritParams ggplot2::geom_text
 #' @param position A position adjustment. The default, `"pyramid"`, is
 #'   [position_pyramid()], which places each label at the outer end of its
-#'   bar. Use the same position as the bars, for example
-#'   `position_pyramid(left = "Female")`.
+#'   bar. Labels follow the side set by `coord_pyramid(left = ...)`; a
+#'   position given to the bars should be given to the labels as well.
 #' @param place Where to draw the labels: `"outside"` the end of the bar, or
 #'   `"inside"` it.
 #' @param padding The distance between the label and the end of the bar, in

@@ -19,6 +19,47 @@ test_that("`left` chooses the mirrored side", {
   expect_equal(d$xmax[d$side == "Male"], c(220, 200, 160, 90))
 })
 
+test_that("`left` in coord_pyramid() reaches every layer", {
+  p <- ggplot2::ggplot(pyramid_data(), ggplot2::aes(n, age, fill = sex)) +
+    geom_pyramid() +
+    geom_pyramid_text() +
+    geom_pyramid_outline() +
+    coord_pyramid(left = "Female")
+
+  for (i in 1:3) {
+    d <- ggplot2::layer_data(p, i)
+    female <- d$fill == unique(d$fill[d$x < 0])
+    expect_true(all(d$x[female] <= 0), label = paste("layer", i))
+    expect_true(all(d$x[!female] >= 0), label = paste("layer", i))
+    expect_equal(sort(d$x[female & d$x != 0]), sort(-c(210, 205, 170, 120)))
+  }
+})
+
+test_that("`left` in position_pyramid() overrides coord_pyramid()", {
+  p <- ggplot2::ggplot(pyramid_data(), ggplot2::aes(n, age, side = sex)) +
+    ggplot2::geom_col(position = "pyramid") +
+    ggplot2::geom_col(position = position_pyramid(left = "Male")) +
+    coord_pyramid(left = "Female")
+
+  d1 <- layer_rows(p, 1)
+  d2 <- layer_rows(p, 2)
+  expect_equal(d1$xmin[d1$side == "Female"], -c(210, 205, 170, 120))
+  expect_equal(d2$xmin[d2$side == "Male"], -c(220, 200, 160, 90))
+})
+
+test_that("coord_pyramid() keeps layers on a subset on the same side", {
+  df <- transform(pyramid_data(), sex = as.character(sex))
+  p <- ggplot2::ggplot(df, ggplot2::aes(n, age, side = sex)) +
+    ggplot2::geom_col(position = "pyramid") +
+    ggplot2::geom_point(
+      data = subset(df, sex == "Male"),
+      position = "pyramid"
+    ) +
+    coord_pyramid(left = "Female")
+
+  expect_true(all(ggplot2::layer_data(p, 2)$x > 0))
+})
+
 test_that("a character side mirrors its first value in sorted order", {
   df <- transform(pyramid_data(), sex = as.character(sex))
   p <- ggplot2::ggplot(df, ggplot2::aes(n, age, side = sex)) +
@@ -175,6 +216,7 @@ test_that("an unknown `left` value warns", {
 test_that("arguments are checked", {
   expect_snapshot(position_pyramid(left = c("Male", "Female")), error = TRUE)
   expect_snapshot(position_pyramid(stack = "yes"), error = TRUE)
+  expect_snapshot(coord_pyramid(left = NA), error = TRUE)
 })
 
 test_that("a zero on the left side stays on the left side", {

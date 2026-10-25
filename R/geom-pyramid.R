@@ -13,7 +13,8 @@
 #'   layer. The default, `"pyramid"`, is [stat_pyramid()].
 #' @param position A position adjustment. The default, `"pyramid"`, is
 #'   [position_pyramid()]; call it to set its arguments, for example
-#'   `position = position_pyramid(left = "Female")`.
+#'   `position = position_pyramid(reverse = TRUE)`. To choose the side drawn on
+#'   the left for every layer, use `coord_pyramid(left = "Female")`.
 #' @param ... Other arguments passed on to [ggplot2::layer()], such as the bar
 #'   `width` or fixed aesthetics like `colour = "white"`.
 #'

@@ -58,7 +58,8 @@ layer. The default, \code{"pyramid"}, is \code{\link[=stat_pyramid]{stat_pyramid
 
 \item{position}{A position adjustment. The default, \code{"pyramid"}, is
 \code{\link[=position_pyramid]{position_pyramid()}}; call it to set its arguments, for example
-\code{position = position_pyramid(left = "Female")}.}
+\code{position = position_pyramid(reverse = TRUE)}. To choose the side drawn on
+the left for every layer, use \code{coord_pyramid(left = "Female")}.}
 
 \item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}}, such as the bar
 \code{width} or fixed aesthetics like \code{colour = "white"}.}

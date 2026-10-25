@@ -46,8 +46,8 @@ layer. The default, \code{"pyramid"}, is \code{\link[=stat_pyramid]{stat_pyramid
 
 \item{position}{A position adjustment. The default mirrors the left side
 without stacking, as \code{position_pyramid(stack = FALSE)}, so that one line
-per side follows the total. Use \code{position_pyramid(left = ...)} to match
-the bars when they set \code{left}.}
+per side follows the total. The outline follows the side set by
+\code{coord_pyramid(left = ...)}.}
 
 \item{...}{Other arguments passed on to \code{\link[ggplot2:layer]{ggplot2::layer()}}, such as fixed
 aesthetics like \code{colour = "black"} or \code{linewidth = 0.8}.}

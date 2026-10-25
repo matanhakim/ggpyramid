@@ -190,6 +190,11 @@ ggplot(pop, aes(x = n, y = age, fill = sex)) +
 9. `geom_pyramid_outline()` מצייר קו מדורג אחד לכל צד, שמתחיל באפס וחוזר אליו.
 10. ההגשה ל-CRAN ממתינה. את בדיקות win-builder מתן מריץ בעצמו.
 
+ההחלטות שהתקבלו ב-25.10.2026, על בחירת הצד השמאלי:
+
+11. הצד השמאלי נקבע פעם אחת בתרשים, ב-`coord_pyramid(left = ...)`, וכל שכבה שעוברת דרך `position_pyramid()` קוראת אותו מה-layout. `position_pyramid(left = ...)` נשאר כ-override לשכבה בודדת.
+12. בפירמידה אנכית, שאין בה `coord_pyramid()`, הצד נקבע כמו קודם, לפי סדר הרמות של משתנה הצד או ב-`position_pyramid(left = ...)`.
+
 ## 9. מקורות
 
 - apyramid: https://github.com/R4EPI/apyramid, https://CRAN.R-project.org/package=apyramid

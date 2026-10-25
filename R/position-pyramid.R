@@ -5,9 +5,11 @@
 #' stacks subgroups within each side. It works with any layer, so bars, labels,
 #' points and lines all land on the same side.
 #'
-#' @param left The value of the side variable drawn on the left. Defaults to
-#'   the first level when the side variable is a factor, and to the first value
-#'   in sorted order otherwise.
+#' @param left The value of the side variable drawn on the left in this layer.
+#'   Overrides the `left` of [coord_pyramid()], which sets the side for every
+#'   layer at once. Without either, the first level is drawn on the left when
+#'   the side variable is a factor, and the first value in sorted order
+#'   otherwise.
 #' @param stack If `TRUE`, rows that share an age group and a side are stacked
 #'   away from the centre, as in [ggplot2::position_stack()]. If `FALSE`, they
 #'   overlap, which suits a comparison layer drawn over the bars.
@@ -60,16 +62,15 @@
 #' # Subgroups stack within each side
 #' pop2 <- rbind(transform(pop, group = "A"), transform(pop, group = "B"))
 #' ggplot(pop2, aes(x = n, y = age, fill = group, side = sex)) +
-#'   geom_col(position = position_pyramid(left = "Female"))
+#'   geom_col(position = "pyramid") +
+#'   coord_pyramid(left = "Female")
 position_pyramid <- function(
   left = NULL,
   stack = TRUE,
   vjust = 1,
   reverse = FALSE
 ) {
-  if (!is.null(left) && (!rlang::is_scalar_atomic(left) || is.na(left))) {
-    cli::cli_abort("{.arg left} must be a single value of the side variable.")
-  }
+  check_left(left)
   if (!rlang::is_bool(stack)) {
     cli::cli_abort("{.arg stack} must be {.code TRUE} or {.code FALSE}.")
   }
@@ -104,7 +105,6 @@ PositionPyramid <- ggproto(
     if (!isTRUE(self$stack)) {
       params["var"] <- list(NULL)
     }
-    params$left <- pyramid_left(pyramid_side(data), self$left)
     params
   },
 
@@ -136,6 +136,12 @@ PositionPyramid <- ggproto(
   },
 
   compute_layer = function(self, data, params, layout) {
+    # The side is chosen here rather than in setup_params(), which cannot see
+    # the coordinate system.
+    params$left <- pyramid_left(
+      pyramid_side(data),
+      layer_left(self$left, layout$coord)
+    )
     on_left <- on_left_side(data, params$left)
     negate <- function(x) ifelse(on_left, -x, x)
     data <- if (params$flipped_aes) {
