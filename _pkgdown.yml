@@ -2,3 +2,11 @@ url: https://matanhakim.github.io/ggpyramid/
 template:
   bootstrap: 5
 
+reference:
+- title: Layers
+  contents:
+  - geom_pyramid
+  - position_pyramid
+- title: Extending ggpyramid
+  contents:
+  - ggpyramid-ggproto

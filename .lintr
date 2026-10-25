@@ -1,0 +1,7 @@
+linters: linters_with_defaults(
+    object_name_linter = object_name_linter(
+      styles = c("snake_case", "dotted.case"),
+      regexes = c(ggproto = "^[A-Z][A-Za-z]+$")
+    ),
+    object_usage_linter = NULL
+  )

@@ -11,11 +11,22 @@ pkgdown site at https://matanhakim.github.io/ggpyramid/. Sibling packages by the
 author live next to it (`../il.cbs.muni`, `../rtlr`) and set the house conventions
 for DESCRIPTION, pkgdown and CI; match them.
 
-Status: skeleton only (Oct 2026). Design research, the six architecture
-alternatives and the recommended API live in `dev/design-research.md` (Hebrew);
-throwaway feasibility prototypes in `dev/spikes/`. Section 8 there records the
-decisions once Matan makes them; do not implement ahead of it. `dev/` is
-build-ignored.
+Status (Oct 2026): first layers built: `geom_pyramid()`, `stat_pyramid()` and
+`position_pyramid()`. Next per the plan: `coord_pyramid()` (age axis placement,
+centre gap, absolute labels, symmetric limits), then text and outline layers.
+Design research, the architecture alternatives and the agreed API live in
+`dev/design-research.md` (Hebrew); section 8 records Matan's decisions, and
+nothing is implemented ahead of it. Throwaway prototypes are in `dev/spikes/`;
+`dev/` is build-ignored.
+
+Architecture: `PositionPyramid` (inherits `PositionStack`) owns correctness. It
+negates the value axis for the `left` side, then stacks within each side, so
+any geom can take `position = "pyramid"`. The side comes from the `side`
+aesthetic (declared in the Position's `default_aes`), else `fill`, else
+`colour`. `StatPyramid` counts rows or sums a mapped value and writes counts
+or, with `denominator`, proportions straight into the value axis; the
+constructors attach a child stat whose `default_aes` only names the axis.
+Orientation defaults to horizontal (age on y) when both axes are continuous.
 
 ## Commands
 
@@ -30,6 +41,7 @@ RS="/c/Program Files/R/R-4.5.2/bin/Rscript.exe"
 "$RS" -e 'devtools::build_readme()'      # re-knit README.Rmd -> README.md
 "$RS" -e 'pkgdown::build_site()'         # local site into docs/ (gitignored)
 "$RS" -e 'lintr::lint_package()'
+air format R tests                       # format package code (not dev/ spikes)
 ```
 
 `vdiffr` (visual snapshot tests for plots) is not installed locally; install it and
