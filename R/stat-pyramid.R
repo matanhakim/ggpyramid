@@ -67,6 +67,7 @@ StatPyramid <- ggproto(
   required_aes = "x|y",
   default_aes = aes(weight = 1),
   dropped_aes = "weight",
+  extra_params = c("na.rm", "orientation"),
 
   setup_params = function(self, data, params) {
     params$flipped_aes <- has_flipped_aes(
@@ -97,7 +98,9 @@ StatPyramid <- ggproto(
       flipped_aes = flipped_aes
     )
     total <- if (identical(denominator, "side")) {
-      ave(bars$count, as.character(pyramid_side(bars)), FUN = sum)
+      side <- as.character(pyramid_side(bars))
+      # ave() would give a row without a side its own count as the total.
+      ifelse(is.na(side), NA, ave(bars$count, side, FUN = sum))
     } else {
       sum(bars$count)
     }

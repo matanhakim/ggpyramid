@@ -55,3 +55,12 @@
       Error in `coord_pyramid()`:
       ! `left` must be a single value of the side variable.
 
+# a layer with one side value and no `left` warns
+
+    Code
+      d <- ggplot2::layer_data(p)
+    Condition
+      Warning:
+      The side variable of this layer has one value, "Male", so it is drawn on the left.
+      i Choose the left side with `coord_pyramid(left = )` or `position_pyramid(left = )`, or make the side variable a factor with both levels.
+

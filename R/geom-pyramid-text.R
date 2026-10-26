@@ -30,6 +30,10 @@
 #' or fixed `hjust` or `vjust` is replaced. The other aesthetics are those of
 #' [ggplot2::geom_text()].
 #'
+#' The justification and `padding` follow the orientation of the data, so
+#' [ggplot2::coord_flip()] puts them on the wrong axis. For a vertical pyramid,
+#' map age to `x` instead.
+#'
 #' @returns A ggplot2 layer.
 #' @seealso [geom_pyramid()] for the bars.
 #' @export
@@ -81,6 +85,11 @@ geom_pyramid_text <- function(
     cli::cli_abort("{.arg padding} must be a single number.")
   }
   if (!is.null(labels)) {
+    if (!is.function(labels) && !rlang::is_formula(labels)) {
+      cli::cli_abort(
+        "{.arg labels} must be a function, a formula or {.code NULL}."
+      )
+    }
     labels <- rlang::as_function(labels)
   }
   if (identical(stat, "pyramid")) {

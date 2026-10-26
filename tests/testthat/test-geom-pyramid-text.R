@@ -44,10 +44,14 @@ test_that("geom_pyramid_text() draws labels on a pyramid", {
     geom_pyramid_text(place = "inside", colour = "white") +
     coord_pyramid(age_axis = "centre")
 
-  vdiffr::expect_doppelganger("labels outside and inside", p)
+  expect_doppelganger("labels outside and inside", p)
 })
 
 test_that("geom_pyramid_text() checks its arguments", {
   expect_snapshot(geom_pyramid_text(place = "middle"), error = TRUE)
   expect_snapshot(geom_pyramid_text(padding = "1mm"), error = TRUE)
+})
+
+test_that("`labels` must be a function or a formula", {
+  expect_snapshot(geom_pyramid_text(labels = "a"), error = TRUE)
 })

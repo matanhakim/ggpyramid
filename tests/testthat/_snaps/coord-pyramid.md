@@ -31,3 +31,12 @@
       ! `coord_pyramid()` draws horizontal pyramids, with the values on the x axis.
       i Map age to y.
 
+# a transformed value axis is refused
+
+    Code
+      ggplot2::ggplot_build(p)
+    Condition
+      Error:
+      ! `coord_pyramid()` needs a linear value axis, not a "reverse" transformation.
+      i Use `left` in `coord_pyramid()` to swap the sides.
+

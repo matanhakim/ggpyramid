@@ -121,6 +121,10 @@ so they sit outside (or inside) the bar on both sides.
 vertical justification are set by \code{place} and the text \code{angle}, so a mapped
 or fixed \code{hjust} or \code{vjust} is replaced. The other aesthetics are those of
 \code{\link[ggplot2:geom_text]{ggplot2::geom_text()}}.
+
+The justification and \code{padding} follow the orientation of the data, so
+\code{\link[ggplot2:coord_flip]{ggplot2::coord_flip()}} puts them on the wrong axis. For a vertical pyramid,
+map age to \code{x} instead.
 }
 
 \examples{

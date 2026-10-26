@@ -14,3 +14,11 @@
       Error in `geom_pyramid_text()`:
       ! `padding` must be a single number.
 
+# `labels` must be a function or a formula
+
+    Code
+      geom_pyramid_text(labels = "a")
+    Condition
+      Error in `geom_pyramid_text()`:
+      ! `labels` must be a function, a formula or `NULL`.
+

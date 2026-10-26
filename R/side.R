@@ -33,7 +33,21 @@ pyramid_left <- function(side, left = NULL, call = NULL) {
     )
   }
   if (is.null(left)) {
-    candidates <- if (is.factor(side)) levels(side) else sort(present)
+    # A radix sort ignores the locale, so the default is the same everywhere.
+    candidates <- if (is.factor(side)) levels(side) else
+      sort(present, method = "radix")
+    if (length(candidates) == 1) {
+      cli::cli_warn(
+        c(
+          "The side variable of this layer has one value, {.val {candidates}},
+           so it is drawn on the left.",
+          i = "Choose the left side with {.code coord_pyramid(left = )} or
+               {.code position_pyramid(left = )}, or make the side variable
+               a factor with both levels."
+        ),
+        call = call
+      )
+    }
     return(candidates[1])
   }
   left <- as.character(left)

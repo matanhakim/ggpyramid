@@ -41,5 +41,5 @@ test_that("geom_pyramid_outline() compares two populations", {
     ) +
     coord_pyramid(gap = 0.1)
 
-  vdiffr::expect_doppelganger("outline over bars", p)
+  expect_doppelganger("outline over bars", p)
 })

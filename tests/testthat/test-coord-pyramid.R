@@ -89,15 +89,15 @@ test_that("`age_axis` moves the age scale", {
 test_that("coord_pyramid() places the age axis", {
   p <- pyramid_plot() + ggplot2::labs(y = NULL)
 
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "age axis in the centre",
     p + coord_pyramid(age_axis = "centre")
   )
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "age axis on both sides",
     p + coord_pyramid(age_axis = "both", gap = 0.05)
   )
-  vdiffr::expect_doppelganger(
+  expect_doppelganger(
     "age axis on the right",
     p + coord_pyramid(age_axis = "right")
   )
@@ -134,4 +134,19 @@ test_that("labels are the same on both sides despite rounding noise", {
     coord_pyramid()
 
   expect_equal(panel_params(p)$x$get_labels(), c("5%", "0%", "5%"))
+})
+
+test_that("a transformed value axis is refused", {
+  p <- ggplot2::ggplot(pyramid_data(), ggplot2::aes(n, age, fill = sex)) +
+    geom_pyramid() +
+    ggplot2::scale_x_reverse() +
+    coord_pyramid()
+  expect_snapshot(ggplot2::ggplot_build(p), error = TRUE)
+})
+
+test_that("centre age labels allow an empty panel", {
+  p <- ggplot2::ggplot(pyramid_data()[0, ], ggplot2::aes(n, age, fill = sex)) +
+    geom_pyramid() +
+    coord_pyramid(age_axis = "centre")
+  expect_no_error(ggplot2::ggplotGrob(p))
 })

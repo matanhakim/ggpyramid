@@ -3,7 +3,7 @@ test_that("geom_pyramid() draws a pyramid", {
     geom_pyramid() +
     ggplot2::scale_x_continuous(labels = abs)
 
-  vdiffr::expect_doppelganger("basic pyramid", p)
+  expect_doppelganger("basic pyramid", p)
 })
 
 test_that("geom_pyramid() stacks subgroups with an explicit side", {
@@ -15,7 +15,7 @@ test_that("geom_pyramid() stacks subgroups with an explicit side", {
     geom_pyramid(colour = "white") +
     ggplot2::scale_x_continuous(labels = abs)
 
-  vdiffr::expect_doppelganger("stacked subgroups", p)
+  expect_doppelganger("stacked subgroups", p)
 })
 
 test_that("geom_pyramid() passes other stats through", {

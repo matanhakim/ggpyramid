@@ -12,7 +12,8 @@
 #'   otherwise.
 #' @param stack If `TRUE`, rows that share an age group and a side are stacked
 #'   away from the centre, as in [ggplot2::position_stack()]. If `FALSE`, they
-#'   overlap, which suits a comparison layer drawn over the bars.
+#'   overlap, which suits a comparison layer drawn over the bars. Ranges that
+#'   do not start at zero, such as error bars, are never stacked.
 #' @param vjust,reverse Passed on to the stacking. See
 #'   [ggplot2::position_stack()].
 #'
@@ -101,11 +102,19 @@ PositionPyramid <- ggproto(
     if (nrow(data) > 0) {
       data$flipped_aes <- has_flipped_aes(data, default = TRUE)
     }
-    params <- ggproto_parent(PositionStack, self)$setup_params(data)
-    if (!isTRUE(self$stack)) {
-      params["var"] <- list(NULL)
+    flipped_aes <- has_flipped_aes(data, default = TRUE)
+    # A range away from zero, such as an error bar, cannot be stacked, and
+    # position_stack() would warn about it, so it is only mirrored.
+    if (!isTRUE(self$stack) || floating_range(data, flipped_aes)) {
+      return(list(
+        var = NULL,
+        fill = self$fill,
+        vjust = self$vjust,
+        reverse = self$reverse,
+        flipped_aes = flipped_aes
+      ))
     }
-    params
+    ggproto_parent(PositionStack, self)$setup_params(data)
   },
 
   # Without stacking, PositionStack$setup_data() and $compute_panel() each
@@ -197,6 +206,13 @@ PositionPyramid <- ggproto(
     }
   }
 )
+
+floating_range <- function(data, flipped_aes) {
+  axis <- if (flipped_aes) "x" else "y"
+  lo <- data[[paste0(axis, "min")]]
+  hi <- data[[paste0(axis, "max")]]
+  !is.null(lo) && !is.null(hi) && any(lo != 0 & hi != 0, na.rm = TRUE)
+}
 
 mirror_just <- function(just, on_left) {
   if (is.numeric(just)) {

@@ -71,7 +71,8 @@ lines on the left side are still given as negative numbers. Any \code{labels}
 given to \code{\link[ggplot2:scale_continuous]{ggplot2::scale_x_continuous()}} apply to the absolute values, for
 example \code{labels = scales::label_percent()}. With a gap, a break at zero is
 drawn on both inner edges, so a gap narrower than two zero labels makes them
-overlap.
+overlap. The value axis must be linear, and a secondary value axis keeps
+its signs.
 }
 
 \section{Age axis}{

@@ -29,7 +29,8 @@
 #' given to [ggplot2::scale_x_continuous()] apply to the absolute values, for
 #' example `labels = scales::label_percent()`. With a gap, a break at zero is
 #' drawn on both inner edges, so a gap narrower than two zero labels makes them
-#' overlap.
+#' overlap. The value axis must be linear, and a secondary value axis keeps
+#' its signs.
 #'
 #' @section Age axis:
 #' `"left"` and `"right"` move the age scale to that side together with its
@@ -127,6 +128,19 @@ CoordPyramid <- ggproto(
         call = NULL
       )
     }
+    for (scale in scales_x) {
+      transformation <- scale$get_transformation()$name
+      if (!identical(transformation, "identity")) {
+        cli::cli_abort(
+          c(
+            "{.fn coord_pyramid} needs a linear value axis, not a
+             {.val {transformation}} transformation.",
+            i = "Use {.arg left} in {.fn coord_pyramid} to swap the sides."
+          ),
+          call = NULL
+        )
+      }
+    }
     for (scale in scales_y) {
       scale$position <- if (self$age_axis == "right") "right" else "left"
       no_secondary <- is.null(scale$secondary.axis) ||
@@ -185,6 +199,9 @@ CoordPyramid <- ggproto(
       return(border)
     }
     age <- panel_params$y
+    if (length(age$get_breaks()) == 0) {
+      return(border)
+    }
     centre <- panel_params$x$rescale(0) * (1 - self$gap) + self$gap / 2
     labels <- ggplot2::element_grob(
       ggplot2::calc_element("axis.text.y.left", theme),

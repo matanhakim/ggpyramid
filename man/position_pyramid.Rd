@@ -15,7 +15,8 @@ otherwise.}
 
 \item{stack}{If \code{TRUE}, rows that share an age group and a side are stacked
 away from the centre, as in \code{\link[ggplot2:position_stack]{ggplot2::position_stack()}}. If \code{FALSE}, they
-overlap, which suits a comparison layer drawn over the bars.}
+overlap, which suits a comparison layer drawn over the bars. Ranges that
+do not start at zero, such as error bars, are never stacked.}
 
 \item{vjust, reverse}{Passed on to the stacking. See
 \code{\link[ggplot2:position_stack]{ggplot2::position_stack()}}.}

@@ -72,7 +72,7 @@ test_that("the value axis is named after what the bars show", {
   people <- df[rep(seq_len(nrow(df)), df$n), c("age", "sex")]
   label_x <- function(layer) {
     p <- ggplot2::ggplot(people, ggplot2::aes(y = age, fill = sex)) + layer
-    as.vector(ggplot2::ggplot_build(p)$plot@labels$x)
+    as.vector(ggplot2::get_labs(p)$x)
   }
 
   expect_equal(label_x(geom_pyramid()), "count")
@@ -118,4 +118,29 @@ test_that("a vertical pyramid counts along x", {
 test_that("an unknown denominator fails", {
   expect_snapshot(geom_pyramid(denominator = "sex"), error = TRUE)
   expect_snapshot(stat_pyramid(denominator = "sex"), error = TRUE)
+})
+
+test_that("`orientation` reaches the stat", {
+  df <- transform(pyramid_data(), age = rep(c(0, 20, 40, 60), 2))
+  p <- ggplot2::ggplot(df, ggplot2::aes(age, n, fill = sex)) +
+    geom_pyramid(orientation = "x")
+  d <- ggplot2::layer_data(p)
+
+  expect_false(any(d$flipped_aes))
+  expect_equal(sort(unique(d$x)), c(0, 20, 40, 60))
+  expect_equal(min(d$ymin), -220)
+  p <- ggplot2::ggplot(pyramid_data(), ggplot2::aes(n, age, colour = sex)) +
+    stat_pyramid(geom = "point")
+  expect_no_warning(ggplot2::ggplot_build(p))
+})
+
+test_that("rows without a side have no share of a side", {
+  df <- pyramid_data()
+  df$sex[3] <- NA
+  p <- ggplot2::ggplot(df, ggplot2::aes(n, age, side = sex)) +
+    stat_pyramid(denominator = "side", geom = "point", position = "identity")
+  d <- ggplot2::layer_data(p)
+
+  expect_true(is.na(d$prop[is.na(d$side)]))
+  expect_equal(sum(d$prop[d$side %in% "Female"]), 1)
 })

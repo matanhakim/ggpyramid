@@ -15,3 +15,9 @@ layer_rows <- function(p, i = 1, age = "y") {
   rownames(d) <- NULL
   d
 }
+
+# vdiffr is a suggested package, so the visual tests are skipped without it.
+expect_doppelganger <- function(title, fig, ...) {
+  testthat::skip_if_not_installed("vdiffr")
+  vdiffr::expect_doppelganger(title, fig, ...)
+}

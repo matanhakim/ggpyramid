@@ -229,3 +229,39 @@ test_that("a zero on the left side stays on the left side", {
   expect_equal(1 / c(d$xmin[4], d$xmax[4]), c(-Inf, -Inf))
   expect_equal(d$xmin[8], 0)
 })
+
+test_that("ranges away from zero are mirrored without stacking", {
+  df <- transform(pyramid_data(), lo = n - 20, hi = n + 20)
+  p <- ggplot2::ggplot(df, ggplot2::aes(n, age, side = sex)) +
+    ggplot2::geom_errorbar(
+      ggplot2::aes(xmin = lo, xmax = hi),
+      position = "pyramid"
+    )
+  expect_no_warning(d <- layer_rows(p))
+
+  male <- d$side == "Male"
+  expect_equal(d$xmin[male], -c(240, 220, 180, 110))
+  expect_equal(d$xmax[male], -c(200, 180, 140, 70))
+  expect_equal(d$xmin[!male], c(190, 185, 150, 100))
+})
+
+test_that("stack = FALSE does not warn about stacking", {
+  p <- ggplot2::ggplot(pyramid_data(), ggplot2::aes(n, age, fill = sex)) +
+    ggplot2::geom_point(position = position_pyramid(stack = FALSE))
+  expect_no_warning(ggplot2::ggplot_build(p))
+})
+
+test_that("a layer with one side value and no `left` warns", {
+  df <- transform(pyramid_data(), sex = as.character(sex))
+  p <- ggplot2::ggplot(subset(df, sex == "Male"), ggplot2::aes(n, age)) +
+    ggplot2::geom_point(ggplot2::aes(side = sex), position = "pyramid")
+  expect_snapshot(d <- ggplot2::layer_data(p))
+})
+
+test_that("the default side does not depend on the locale", {
+  df <- transform(pyramid_data(), sex = rep(c("Male", "female"), each = 4))
+  p <- ggplot2::ggplot(df, ggplot2::aes(n, age, side = sex)) +
+    ggplot2::geom_col(position = "pyramid")
+  d <- ggplot2::layer_data(p)
+  expect_true(all(d$xmin[d$side == "Male"] < 0))
+})
