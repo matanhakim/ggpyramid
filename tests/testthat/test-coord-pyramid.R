@@ -148,5 +148,7 @@ test_that("centre age labels allow an empty panel", {
   p <- ggplot2::ggplot(pyramid_data()[0, ], ggplot2::aes(n, age, fill = sex)) +
     geom_pyramid() +
     coord_pyramid(age_axis = "centre")
+  grDevices::pdf(NULL)
+  on.exit(grDevices::dev.off())
   expect_no_error(ggplot2::ggplotGrob(p))
 })
