@@ -28,7 +28,8 @@ position_pyramid(left = NULL, stack = TRUE, vjust = 1, reverse = FALSE)
   from the centre, as in
   [`ggplot2::position_stack()`](https://ggplot2.tidyverse.org/reference/position_stack.html).
   If `FALSE`, they overlap, which suits a comparison layer drawn over
-  the bars.
+  the bars. Ranges that do not start at zero, such as error bars, are
+  never stacked.
 
 - vjust, reverse:
 

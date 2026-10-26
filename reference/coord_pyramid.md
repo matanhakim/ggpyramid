@@ -93,7 +93,8 @@ still given as negative numbers. Any `labels` given to
 apply to the absolute values, for example
 `labels = scales::label_percent()`. With a gap, a break at zero is drawn
 on both inner edges, so a gap narrower than two zero labels makes them
-overlap.
+overlap. The value axis must be linear, and a secondary value axis keeps
+its signs.
 
 ## Age axis
 

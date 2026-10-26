@@ -167,6 +167,11 @@ mapped or fixed `hjust` or `vjust` is replaced. The other aesthetics are
 those of
 [`ggplot2::geom_text()`](https://ggplot2.tidyverse.org/reference/geom_text.html).
 
+The justification and `padding` follow the orientation of the data, so
+[`ggplot2::coord_flip()`](https://ggplot2.tidyverse.org/reference/coord_flip.html)
+puts them on the wrong axis. For a vertical pyramid, map age to `x`
+instead.
+
 ## See also
 
 [`geom_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid.md)
