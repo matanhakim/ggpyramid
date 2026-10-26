@@ -11,8 +11,8 @@ pkgdown site at https://matanhakim.github.io/ggpyramid/. Sibling packages by the
 author live next to it (`../il.cbs.muni`, `../rtlr`) and set the house conventions
 for DESCRIPTION, pkgdown and CI; match them.
 
-Status (Oct 2026): version 0.1.0, prepared for a first CRAN submission
-(`cran-comments.md`) but not yet submitted. Exports: `geom_pyramid()`/`stat_pyramid()`,
+Status (Oct 2026): version 0.1.0, submitted to CRAN on 26.10.2026 and awaiting
+review (`CRAN-SUBMISSION` records the commit). Exports: `geom_pyramid()`/`stat_pyramid()`,
 `geom_pyramid_text()`, `geom_pyramid_outline()`, `position_pyramid()`,
 `coord_pyramid()`, `scale_x_pyramid()`/`scale_y_pyramid()`, `theme_pyramid()`
 and the `europe_pop` data (built by `data-raw/europe_pop.R` from Eurostat).
