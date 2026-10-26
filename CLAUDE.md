@@ -13,8 +13,8 @@ It is Matan Hakim’s personal open-source package, public on GitHub at
 author live next to it (`../il.cbs.muni`, `../rtlr`) and set the house
 conventions for DESCRIPTION, pkgdown and CI; match them.
 
-Status (Oct 2026): version 0.1.0, prepared for a first CRAN submission
-(`cran-comments.md`) but not yet submitted. Exports:
+Status (Oct 2026): version 0.1.0, submitted to CRAN on 26.10.2026 and
+awaiting review (`CRAN-SUBMISSION` records the commit). Exports:
 [`geom_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid.md)/[`stat_pyramid()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid.md),
 [`geom_pyramid_text()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid_text.md),
 [`geom_pyramid_outline()`](https://matanhakim.github.io/ggpyramid/reference/geom_pyramid_outline.md),
