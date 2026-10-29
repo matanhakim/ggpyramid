@@ -80,4 +80,10 @@ nothing in the Bash tool; write the code to a file in the scratchpad and run tha
 - `.github/workflows/R-CMD-check.yaml` (r-lib check-standard) runs on push/PR to main.
 - `.github/workflows/pkgdown.yaml` builds the site and deploys to the `gh-pages`
   branch, which GitHub Pages serves. Reference index layout goes in `_pkgdown.yml`.
+  `development: mode: auto` publishes a release version at the root and a
+  `.9000` version under `/dev/`.
+- pkgdown renders every top-level `.md` (except README, NEWS, LICENSE and
+  cran-comments) into the site, which is why this file lives in `.claude/`. Keep
+  internal notes out of the root. The deploy uses `clean: false`, so a page
+  published by mistake stays on `gh-pages` until it is deleted from that branch.
 - The repo is public: everything committed is published.

@@ -1,24 +1,31 @@
 url: https://matanhakim.github.io/ggpyramid/
 template:
   bootstrap: 5
+development:
+  mode: auto
 
 reference:
 - title: Layers
+  desc: Draw the bars, label them, and outline a second population for comparison.
   contents:
   - geom_pyramid
   - geom_pyramid_text
   - geom_pyramid_outline
 - title: Position, coordinates and scales
+  desc: Mirror one side, label both sides with absolute values, and place the age axis.
   contents:
   - position_pyramid
   - coord_pyramid
   - scale_x_pyramid
 - title: Themes
+  desc: A theme suited to back-to-back bars.
   contents:
   - theme_pyramid
 - title: Data
+  desc: Example population data.
   contents:
   - europe_pop
 - title: Extending ggpyramid
+  desc: The ggproto classes behind the layers, for building new ones.
   contents:
   - ggpyramid-ggproto
