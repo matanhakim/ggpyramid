@@ -3,7 +3,7 @@ pkgdown: 2.2.1
 pkgdown_sha: ~
 articles:
   ggpyramid: ggpyramid.html
-last_built: 2026-10-26T14:50Z
+last_built: 2026-10-29T08:16Z
 urls:
   reference: https://matanhakim.github.io/ggpyramid/reference
   article: https://matanhakim.github.io/ggpyramid/articles
